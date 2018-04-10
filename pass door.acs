@@ -1,0 +1,93 @@
+#include "zcommon.acs"
+#define PASS_SIZE 3
+#define CHANCE 4
+Int set[PASS_SIZE]={4,3,4};
+int top=-1;
+int null=0;
+int store[PASS_SIZE];
+int input=-1;
+function void push(void) { //stack data entry
+if(top==2) {
+    print(s:"Memory Full!!/n/nInvalid password");
+    }else {
+    store[++top]=input;
+    print(i:store[top]);
+    }
+}
+function void pop(void) { //stack empty 
+if(top==-1) {
+print(s:"Password box Reset ");
+    }else {
+  store[top]=null;
+  top--;
+    }
+}
+
+script 1 (void) { //Number pad
+input++;
+ if(input==10) {
+ input=-1;
+ }else {
+ print(i:input);
+    }
+}
+
+Bool isTure=false;
+script 2 (void) { //push data into stack and ckeck it
+   if(top==2) {
+   for(int i=0;i<2;i++) {
+   if(set[i]==store[i]) {
+            print(s:"Welcome!!\n\nDoor is opend for you ");
+            isTure=TRUE;
+        }else {//condition inside loop end
+        print(s:"Invalid password!!");
+        isTure=false;
+        p2();
+            }//else condition in loop 
+    }//loop end
+    
+   }//if condition end 
+   else {
+   push();
+   }
+delay(1);
+if(isTure==true) {
+    door_raise(1,11,88,0);
+    }else {
+    Empty();
+    }//condition door end
+
+        if(input==0) {
+        reset();
+        } //reset on 0 input
+    
+}//End of Script 2
+
+
+function void P2(void) {
+for(int f=0;f<3;f++) {
+            pop();
+                }
+}
+function int Empty (void) {
+return 1;
+}
+
+function void reset(void) { //reset to default
+for(int i=0;i<2;i++) {
+    store[i]=null;
+    }//end for loop
+    top=-1;
+    isTure=false;
+    p2();
+}
+
+script 3 (void) {
+if(isTure==true) {
+    door_raise(1,11,88,0);
+    }else {
+    Empty();
+    print(s:"Door is locked enter code top open it");
+    }//condition door end
+
+}
